@@ -1,0 +1,16 @@
+{
+  "name": "mock_smsc_centos",
+  "description": "",
+  "json_class": "Chef::Role",
+  "default_attributes": {
+  },
+  "override_attributes": {
+  },
+  "chef_type": "role",
+  "run_list": [
+    "recipe[java_centos::oracle]",
+    "recipe[mock_smsc_centos]"
+  ],
+  "env_run_lists": {
+  }
+}

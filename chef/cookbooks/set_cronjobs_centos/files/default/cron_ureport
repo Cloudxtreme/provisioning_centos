@@ -1,0 +1,1 @@
+* * * * * ureport /home/ureport/virtualenv/ureport/bin/python /home/ureport/code/ureport/ureport_project/manage.py check_script_progress -e 7 -l 20

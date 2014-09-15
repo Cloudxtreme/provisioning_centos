@@ -1,0 +1,64 @@
+group = core
+admin-port = 13000
+smsbox-port = 14000
+admin-password = mshaikh
+log-file = "/var/log/kannel/kannel.log"
+log-level = 0
+access-log = "/var/log/kannel/access_kannel.log"
+store-location = "/var/log/kannel/kannel.store"
+status-password = bar9900
+admin-allow-ip = "*.*.*.*"
+box-allow-ip = "*.*.*.*"
+
+<% @smscs.each do |smsc| %>
+
+# <%= smsc["id"] %>
+group   = smsc
+smsc    = smpp
+host    = <%= smsc["smsc_host"]%>
+port    = <%= smsc["smsc_port"] %>
+transceiver-mode = true
+smsc-username    = <%= smsc["smsc_user"]%>
+smsc-password    = <%= smsc["smsc_password"]%>
+smsc-id = <%= smsc["id"] %>
+allowed-smsc-id =  <%= smsc["id"] %>
+system-type = "vma"
+source-addr-ton = 5
+source-addr-npi = 1
+dest-addr-ton = 1
+dest-addr-npi = 1
+log-level = 0
+log-file = "/var/log/kannel/<%= smsc["id"] %>.log"
+address-range = ""
+interface-version = 34
+
+
+<% end %>
+
+#SMS USERS
+group = sendsms-user
+username = <%= @username %>
+password = <%= @password %>
+concatenation = true
+#user-allow-ip = "*.*.*.*"
+
+
+#SMSBOX
+group = smsbox
+bearerbox-host = localhost
+sendsms-port = 13013
+log-file = /var/log/kannel/smsbox.log
+log-level = 0
+http-queue-delay = 5
+http-request-retry = 5
+
+group = sms-service
+keyword = default
+max-messages = 0
+get-url = "<%= @sms_service_url %>"
+allowed-receiver-prefix =<%= @receiver %>
+concatenation = true
+accepted-smsc = <% @aggregators.each do |aggregator| %> <%=" #{aggregator};" %> <% end %>
+assume-plain-text = true
+accept-x-kannel-headers = true
+omit-empty = true

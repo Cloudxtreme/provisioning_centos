@@ -1,0 +1,20 @@
+{
+  "name": "backup_db_server_centos",
+  "description": "",
+  "json_class": "Chef::Role",
+  "default_attributes": {
+    "open_ports":{
+      "eth1" : ["5432"]
+    }
+  },
+  "override_attributes": {
+  },
+  "chef_type": "role",
+  "run_list": [
+    "recipe[add_access_to_dbserver_centos]",
+    "recipe[postgres_backup_centos]",
+    "recipe[persist_security_attributes_centos]"
+  ],
+  "env_run_lists": {
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "name": "test_server_centos",
+  "description": "",
+  "json_class": "Chef::Role",
+  "default_attributes": {
+  },
+  "override_attributes": {
+  },
+  "chef_type": "role",
+  "run_list": [
+    "recipe[create_superuser_centos]",
+    "recipe[functional_test_utils_centos::steps_for_test_server]"
+  ],
+  "env_run_lists": {
+  }
+}

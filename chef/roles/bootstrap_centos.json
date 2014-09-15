@@ -1,0 +1,16 @@
+{
+  "name": "bootstrap_centos",
+  "description": "",
+  "json_class": "Chef::Role",
+  "default_attributes": {
+  },
+  "override_attributes": {
+  },
+  "chef_type": "role",
+  "run_list": [
+    "recipe[create_users_centos]",
+    "recipe[locale_centos]"
+  ],
+  "env_run_lists": {
+  }
+}

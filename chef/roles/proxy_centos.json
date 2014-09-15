@@ -1,0 +1,19 @@
+{
+  "name": "proxy_centos",
+  "description": "",
+  "json_class": "Chef::Role",
+  "default_attributes": {
+    "open_ports":{
+      "eth1" : ["3128"]
+    }
+  },
+  "override_attributes": {
+  },
+  "chef_type": "role",
+  "run_list": [
+    "recipe[setup_proxy_server_centos]",
+    "recipe[persist_security_attributes_centos]"
+  ],
+  "env_run_lists": {
+  }
+}

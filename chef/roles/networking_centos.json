@@ -1,0 +1,15 @@
+{
+  "name": "networking_centos",
+  "description": "Sets up everything you need to be networked",
+  "json_class": "Chef::Role",
+  "default_attributes": {
+  },
+  "override_attributes": {
+  },
+  "chef_type": "role",
+  "run_list": [
+    "recipe[local_dns_centos]"
+  ],
+  "env_run_lists": {
+  }
+}

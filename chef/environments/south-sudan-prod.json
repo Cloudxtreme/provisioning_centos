@@ -1,0 +1,11 @@
+{
+    "name":"south-sudan-prod",
+    "description":"Machines used for South Sudan production.",
+    "chef_type":"environment",
+    "override_attributes":{
+	"app_revision":"v2.0.5",
+        "app_repository_url":"https://github.com/unicefuganda/ureport",
+	"config_url":"git@github.com:ureport/south-sudan-config.git",
+	"config_revision":"v2.2"
+    }
+}

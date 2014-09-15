@@ -1,0 +1,19 @@
+{
+  "name": "upgrade_ureport_centos",
+  "description": "Runlist representing steps to go through when upgrading ureport",
+  "json_class": "Chef::Role",
+  "default_attributes": {
+  },
+  "override_attributes": {
+  },
+  "chef_type": "role",
+  "run_list": [
+    "recipe[ureport_app_centos]",
+    "recipe[db_schema_init_centos]",
+    "recipe[db_schema_migrate_centos]",
+    "recipe[country_customisations_centos::customise]",
+    "recipe[uwsgi_centos::bounce]"
+  ],
+  "env_run_lists": {
+  }
+}

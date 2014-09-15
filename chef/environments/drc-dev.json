@@ -1,0 +1,12 @@
+{
+    "name":"drc-dev",
+    "description":"Machines used for DRC dev",
+    "chef_type":"environment",
+    "override_attributes":{
+        "app_revision":"HEAD",
+        "app_repository_url":"https://github.com/unicefuganda/ureport",
+	    "config_url":"git@github.com:ureport/DRC-config.git",
+	    "config_revision":"HEAD",
+        "language":"drc_fr"
+    }
+}

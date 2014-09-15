@@ -1,0 +1,12 @@
+.idea
+*.iws
+*.ipr
+*.swp
+*.pyc
+.DS_Store
+*/.#*
+*/logs
+target
+shape_files_export/shape_files/
+.bundle/
+rackspace_env

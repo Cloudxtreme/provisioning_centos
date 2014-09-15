@@ -1,0 +1,45 @@
+<featureType>
+  <id>FeatureTypeInfoImpl-6773d7dc:13a4acc3c73:-8000</id>
+  <name>polls</name>
+  <nativeName>polls</nativeName>
+  <namespace>
+    <id>NamespaceInfoImpl-2018bca:13a4a7e5af8:-7fff</id>
+  </namespace>
+  <title>polls</title>
+  <keywords>
+    <string>features</string>
+    <string>polls</string>
+  </keywords>
+  <srs>EPSG:900913</srs>
+  <projectionPolicy>FORCE_DECLARED</projectionPolicy>
+  <enabled>true</enabled>
+  <metadata>
+    <entry key="cachingEnabled">false</entry>
+    <entry key="JDBC_VIRTUAL_TABLE">
+      <virtualTable>
+        <name>polls</name>
+        <sql>select *, l.<%= @location_column_name %> as location_name_to_be_rendered from locations l join geoserver_polldata pd on pd.district=l.<%= @location_column_name %> where pd.poll_id=%poll% and pd.deployment_id=%app%</sql>
+        <geometry>
+          <name>wkb_geometry</name>
+          <type>MultiPolygon</type>
+          <srid>900914</srid>
+        </geometry>
+        <parameter>
+          <name>poll</name>
+          <defaultValue>157</defaultValue>
+          <regexpValidator>^[\w\d\s]+$</regexpValidator>
+        </parameter>
+        <parameter>
+          <name>app</name>
+          <defaultValue>1</defaultValue>
+          <regexpValidator>^[\w\d\s]+$</regexpValidator>
+        </parameter>
+      </virtualTable>
+    </entry>
+  </metadata>
+  <store class="dataStore">
+    <id>DataStoreInfoImpl-2018bca:13a4a7e5af8:-7ffe</id>
+  </store>
+  <maxFeatures>0</maxFeatures>
+  <numDecimals>0</numDecimals>
+</featureType>

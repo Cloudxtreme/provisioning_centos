@@ -1,0 +1,18 @@
+{
+  "name": "init_db_centos",
+  "description": "",
+  "json_class": "Chef::Role",
+  "default_attributes": {
+  },
+  "override_attributes": {
+  },
+  "chef_type": "role",
+  "run_list": [
+    "recipe[db_schema_init_centos]",
+    "recipe[db_schema_migrate_centos]",
+    "recipe[load_seed_data_centos]",
+    "recipe[clean_repo_centos]"
+  ],
+  "env_run_lists": {
+  }
+}

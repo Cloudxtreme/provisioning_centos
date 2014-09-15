@@ -1,0 +1,20 @@
+{
+  "name": "test_client_centos",
+  "description": "",
+  "json_class": "Chef::Role",
+  "default_attributes": {
+  },
+  "override_attributes": {
+  },
+  "chef_type": "role",
+  "run_list": [
+    "recipe[locale_centos]",
+    "recipe[postgres_centos]",
+    "recipe[git_centos]",
+    "recipe[python_dev_centos::install_python_packages]",
+    "recipe[python_dev_centos::create_ureport_virtualenv]"/*,
+    "recipe[functional_test_utils_centos::tools_to_run_tests]"*/
+  ],
+  "env_run_lists": {
+  }
+}

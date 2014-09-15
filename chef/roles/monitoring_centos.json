@@ -1,0 +1,20 @@
+{
+  "name": "monitoring_centos",
+  "description": "Monitoring",
+  "json_class": "Chef::Role",
+  "default_attributes": {
+    "open_ports":{
+      "eth0" : ["80", "443"]
+    }
+  },
+  "override_attributes": {
+  },
+  "chef_type": "role",
+  "run_list": [
+    "recipe[nagios_server_centos::install]",
+    "recipe[nagios_server_centos::configure]",
+    "recipe[persist_security_attributes_centos]"
+  ],
+  "env_run_lists": {
+  }
+}

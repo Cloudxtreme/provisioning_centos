@@ -1,0 +1,4 @@
+knife ssh name:ci-dev-dbserver -a rackspace.private_ip -x root -P $DBSERVER_SSH_PASSWORD "psql -U postgres -h localhost -c \"SELECT pg_terminate_backend(procpid) FROM pg_stat_activity WHERE datname = 'ureport'\""
+knife ssh name:ci-dev-dbserver -a rackspace.private_ip -x root -P $DBSERVER_SSH_PASSWORD  "psql -U postgres -h localhost -c \"drop database ureport;\""
+knife ssh name:ci-dev-dbserver -a rackspace.private_ip -x root -P $DBSERVER_SSH_PASSWORD  "psql -U postgres -h localhost -c \"create database ureport;\""
+knife ssh name:ci-dev-appserver -a rackspace.private_ip -x root -P $APPSERVER_SSH_PASSWORD "chef-client -o 'role[ci_test_environment]' --once"

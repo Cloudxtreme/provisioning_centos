@@ -1,0 +1,26 @@
+import os
+import sys
+from rackspace_client import RackspaceAPIClient
+
+
+def get_backup_configuration_id (backups, machine_name, backup_name):
+    for backup in backups:
+        if backup["BackupConfigurationName"] == backup_name and backup["MachineName"] == machine_name:
+            return backup["BackupConfigurationId"]
+    return None
+
+
+machine_name = sys.argv[1]
+backup_name = sys.argv[2]
+
+client = RackspaceAPIClient("<%= @rackspace_username %>", "<%= @rackspace_api_key %>")
+
+backup_configuration_url = "%s/backup-configuration" % (client.get_endpoint_for("cloudBackup"),)
+client.get(backup_configuration_url)
+
+backup_id = get_backup_configuration_id(client.get_response(), machine_name, backup_name)
+
+backup_start_url = "%s/backup/action-requested" % (client.get_endpoint_for("cloudBackup"),)
+
+values= {"Action": "StartManual", "Id": backup_id}
+client.post(backup_start_url, values)

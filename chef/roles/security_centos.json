@@ -1,0 +1,16 @@
+{
+  "name": "security_centos",
+  "description": "Network Security for UReport machines",
+  "json_class": "Chef::Role",
+  "default_attributes": {
+  },
+  "override_attributes": {
+  },
+  "chef_type": "role",
+  "run_list": [
+    "recipe[block_password_access_centos]",
+    "recipe[ufw_centos]"
+  ],
+  "env_run_lists": {
+  }
+}

@@ -1,0 +1,43 @@
+node_name = ENV['USER'] + "-vagrant"
+local_folder_to_map_to_source_code = "<for example, ~/Documents/ureport_code>"
+
+Vagrant.configure("2") do |config|
+  config.omnibus.chef_version = '11.4.4'
+  config.vm.box = "~/.chef/ureport/precise64.box"
+  config.vm.box_url = "http://files.vagrantup.com/precise64.box"
+  config.vm.hostname = node_name
+  config.vm.network :forwarded_port, host: 8000, guest: 80
+  config.vm.network :forwarded_port, host: 5444, guest: 5432
+  config.vm.network :private_network, ip: "2.2.2.2"
+  config.vm.synced_folder local_folder_to_map_to_source_code, "/home/ureport/code/ureport"
+  config.vm.provider "virtualbox" do |v|
+    v.customize       [
+                        "modifyvm", :id,
+                        "--name", "uReport",
+                        "--memory", "2048",
+                        "--natdnshostresolver1", "on"
+                      ]
+  end
+  config.ssh.forward_agent = true
+  config.vm.provision :chef_client do |chef|
+    chef.chef_server_url = "https://10.71.23.119:443"
+    chef.provisioning_path = "/etc/chef"
+    chef.validation_key_path = "~/.chef/ureport/validation.pem"
+    chef.node_name = node_name
+    chef.environment = "ecuador-dev"
+    chef.encrypted_data_bag_secret_key_path = "~/.chef/ureport/ur_data_bag_key"
+    chef.delete_node = true
+    chef.delete_client = true
+    chef.run_list = [
+        "role[bootstrap]",
+        "role[vagrant]",
+        "role[db_server]",
+        "role[app_server]",
+        "role[web_server]",
+        "role[geoserver]",
+        "role[test_client]",
+        "role[init_db]",
+        "role[customise_application]"
+      ]
+  end
+end

@@ -1,0 +1,11 @@
+{
+    "name":"nigeria-dev",
+    "description":"Machines used for Nigeria dev environments. Importantly, kannel.conf should not be the same as that of nigeria-prod.",
+    "chef_type":"environment",
+    "override_attributes":{
+        "app_revision":"HEAD",
+        "app_repository_url":"https://github.com/unicefuganda/ureport",
+	"config_url":"git@github.com:ureport/nigeria-config.git",
+	"config_revision":"HEAD"
+    }
+}

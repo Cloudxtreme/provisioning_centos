@@ -1,0 +1,22 @@
+{
+  "name": "db_server_centos",
+  "description": "",
+  "json_class": "Chef::Role",
+  "default_attributes": {
+    "open_ports":{
+      "eth1" : ["5432"]
+    }
+  },
+  "override_attributes": {
+  },
+  "chef_type": "role",
+  "run_list": [
+    "recipe[add_public_key_attribute_centos]",
+    "recipe[git_centos]",
+    "recipe[postgres_centos]",
+    "recipe[ibm_classification_centos]",
+    "recipe[persist_security_attributes_centos]"
+  ],
+  "env_run_lists": {
+  }
+}

@@ -1,0 +1,12 @@
+{
+    "name":"swaziland-prod",
+    "description":"Machines used for Swaziland production.",
+    "chef_type":"environment",
+    "override_attributes":{
+	"app_revision":"v2.0.6",
+        "app_repository_url":"https://github.com/unicefuganda/ureport",
+	"config_url":"git@github.com:ureport/swaziland-config.git",
+	"config_revision":"v0.8",
+        "language":"swaz"
+    }
+}

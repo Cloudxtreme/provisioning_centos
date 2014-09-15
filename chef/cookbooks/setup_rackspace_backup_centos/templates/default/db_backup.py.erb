@@ -1,0 +1,33 @@
+import sys
+import os
+from datetime import datetime
+from rackspace_client import RackspaceAPIClient
+from backup import get_agent_id_for_machine, Backup
+
+#python script.py [machine name] [email] 22:30pm
+
+machine_name = sys.argv[1]
+email = sys.argv[2]
+
+run_daily_time = None
+if len(sys.argv) > 2:
+    run_daily_time = sys.argv[3]
+
+client = RackspaceAPIClient("<%= @rackspace_username %>", "<%= @rackspace_api_key %>")
+
+backup_configuration_url = "%s/backup-configuration" % (client.get_endpoint_for("cloudBackup"),)
+client.get(backup_configuration_url)
+
+agent_id = get_agent_id_for_machine(client, machine_name)
+
+backup = Backup("backup-db", agent_id, email)
+backup.add_folder("/home/ureport/backups")
+
+if run_daily_time is not None:
+    data = datetime.strptime(run_daily_time,"%I:%M%p")
+    values = backup.daily_backup(data.strftime("%I"), data.minute, data.strftime("%p"))
+else:
+    values = backup.manual_backup()
+
+backup_create_url = "%s/backup-configuration" % (client.get_endpoint_for("cloudBackup"),)
+client.post(backup_create_url, values)

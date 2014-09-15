@@ -1,0 +1,28 @@
+{
+  "name": "app_server_centos",
+  "description": "Application Setup + Dependencies",
+  "json_class": "Chef::Role",
+  "default_attributes": {
+    "open_ports":{
+      "eth0": ["80", "443", "8080", "13000","13013", "14000"]
+    }
+  },
+  "override_attributes": {
+  },
+  "chef_type": "role",
+  "run_list": [
+    "recipe[git_centos]",
+    "recipe[python_dev_centos::install_python_packages]",
+    "recipe[python_dev_centos::create_ureport_virtualenv]",
+    "recipe[ureport_app_centos]",
+    "recipe[uwsgi_centos]",
+    "recipe[rabbitmq_centos]",
+    /*"recipe[kannel_centos]",*/
+    "recipe[celery_centos]",
+    "recipe[supervisord_centos]",
+    /*"recipe[set_cronjobs_centos]",*/
+    "recipe[persist_security_attributes_centos]"
+  ],
+  "env_run_lists": {
+  }
+}

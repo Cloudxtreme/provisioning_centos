@@ -1,0 +1,11 @@
+{
+	"name":"uganda-prod",
+	"description":"Machines used for Uganda production.",
+ 	"chef_type":"environment",
+	"override_attributes":{
+		"app_revision":"v2.0.2",
+		"app_repository_url":"https://github.com/unicefuganda/ureport",
+		"config_url":"git@github.com:ureport/uganda-config.git",
+		"config_revision":"v0.7"
+	}
+}

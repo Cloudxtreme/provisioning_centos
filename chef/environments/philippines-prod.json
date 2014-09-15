@@ -1,0 +1,12 @@
+{
+    "name":"philippines-prod",
+    "description":"Machines used for Philippines prod.",
+    "chef_type":"environment",
+    "override_attributes":{
+        "app_revision":"HEAD",
+        "app_repository_url":"https://github.com/unicefuganda/ureport",
+	"config_url":"git@github.com:ureport/philippines-config.git",
+	"config_revision":"HEAD",
+        "language":"phi"
+    }
+}

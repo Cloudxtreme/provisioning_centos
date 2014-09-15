@@ -1,0 +1,24 @@
+# A simple wildcard hostgroup
+define hostgroup {
+        hostgroup_name  all
+		alias           All Servers
+		members         *
+        }
+
+define hostgroup {
+        hostgroup_name	app-servers
+		alias           Application servers
+		members         <% @appservers.each {|server| %><%= server.name %>,<% } %>
+        }
+
+define hostgroup {
+        hostgroup_name	db-servers
+		alias           Database servers
+		members         <% @dbservers.each {|server| %><%= server.name %>,<% } %>
+        }
+
+define hostgroup {
+        hostgroup_name	backup-db-servers
+		alias           Database backup servers
+		members         <% @backupdbservers.each {|server| %><%= server.name %>,<% } %>
+        }

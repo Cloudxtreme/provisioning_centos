@@ -1,0 +1,27 @@
+credentials:
+  :provider: rackspace
+  :rackspace_api_key: <%=ENV['RACKSPACE_API_KEY']%>
+  :rackspace_username: <%=ENV['RACKSPACE_USERNAME']%>
+  :version: :v2
+  :rackspace_auth_url: "https://lon.identity.api.rackspacecloud.com/v2.0"
+  :rackspace_region: :lon
+options:
+  image: 23b564c9-c3e6-49f9-bc68-86c7a9ab5018
+  bootstrap-version: 11.4.4
+other_options:
+  environment: environment
+  flavor: flavor
+  node-name: node_name
+  server-name: server_name
+web_service: rackspace
+encrypted_data_bag_location: <%=ENV['RACKSPACE_ENCRYPTED_BAG_SECRET_LOCATION']%>
+machine:
+  appserver:
+    roles: "role[bootstrap],role[app_server],role[web_server],role[geoserver]"
+  dbserver:
+    roles: "role[bootstrap],role[db_server]"
+knife_ssh_attributes:
+  attribute: ipaddress
+  ssh-user: root
+knife_search_options:
+  attribute: ipaddress

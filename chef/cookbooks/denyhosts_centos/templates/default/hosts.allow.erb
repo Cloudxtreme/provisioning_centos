@@ -1,0 +1,5 @@
+sshd: 41.77.72.206 #TW Kla office IP
+<% @jumpboxes.each do |box|  %>
+sshd: <%= box.cloud.public_ipv4 %>
+sshd: <%= box.cloud.local_ipv4 %>
+<% end %>

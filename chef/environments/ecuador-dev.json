@@ -1,0 +1,12 @@
+{
+	"name":"ecuador-dev",
+	"description":"Ecuador development environment -- Kannel credentials should be fake ones.",
+ 	"chef_type":"environment",
+	"override_attributes":{
+		"app_revision":"HEAD",
+		"app_repository_url":"https://github.com/Senescyt/ureport.git",
+		"config_url":"git@github.com:ureport/ecuador-config.git",
+		"config_revision":"HEAD",
+		"language":"es"
+	}
+}

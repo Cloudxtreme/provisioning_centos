@@ -1,0 +1,30 @@
+credentials:
+  :provider: AWS
+  :aws_access_key_id: <%=ENV['AWS_ACCESS_KEY_ID']%>
+  :aws_secret_access_key: <%=ENV['AWS_SECRET_ACCESS_KEY']%>
+options:
+  image: ami-f094c0a2
+  region: ap-southeast-1
+  ssh-key: ureport_team
+  ssh-user: ubuntu
+  identity-file: "~/.ssh/ureport_team_singapore.pem"
+  bootstrap-version: 11.4.4
+other_options:
+  environment: environment
+  flavor: flavor
+  node-name: node_name
+  security-group: security_group
+  ebs-size: ebs_size
+web_service: ec2
+encrypted_data_bag_location: <%=ENV['RACKSPACE_ENCRYPTED_BAG_SECRET_LOCATION']%>
+machine:
+  dbserver:
+    roles: "role[bootstrap],role[db_server]"
+  appserver:
+    roles: "role[bootstrap],role[app_server],role[web_server],role[geoserver]"
+knife_ssh_attributes:
+  attribute: ec2.public_hostname
+  ssh-user: ubuntu
+  identity-file: "~/.ssh/ureport_team_singapore.pem"
+knife_search_options:
+  attribute: ec2.public_hostname

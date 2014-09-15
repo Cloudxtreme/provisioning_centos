@@ -1,0 +1,15 @@
+{
+  "name": "vagrant_centos",
+  "description": "",
+  "json_class": "Chef::Role",
+  "default_attributes": {
+  },
+  "override_attributes": {
+  },
+  "chef_type": "role",
+  "run_list": [
+    "recipe[vagrant_setup_centos]"
+  ],
+  "env_run_lists": {
+  }
+}

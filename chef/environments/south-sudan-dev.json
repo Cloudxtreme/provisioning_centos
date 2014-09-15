@@ -1,0 +1,11 @@
+{
+    "name":"south-sudan-dev",
+    "description":"Machines used for South Sudan dev. Importantly, kannel.conf should not be the same as that of south-sudan-prod.",
+    "chef_type":"environment",
+    "override_attributes":{
+        "app_revision":"HEAD",
+        "app_repository_url":"https://github.com/unicefuganda/ureport",
+	"config_url":"git@github.com:ureport/south-sudan-config.git",
+	"config_revision":"HEAD"
+    }
+}

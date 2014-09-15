@@ -1,0 +1,12 @@
+{
+    "name":"drc-prod",
+    "description":"Machines used for DRC production",
+    "chef_type":"environment",
+    "override_attributes":{
+        "app_revision":"v2.0.8",
+        "app_repository_url":"https://github.com/unicefuganda/ureport",
+	    "config_url":"git@github.com:ureport/DRC-config.git",
+	    "config_revision":"v1.2",
+        "language":"drc_fr"
+    }
+}

@@ -1,0 +1,23 @@
+<html>
+
+
+<body>
+   <code>Server URL: http://95.138.170.64:13013/cgi-bin/sendsms</code>
+   <p><a href="http://95.138.171.240:88/">Web UI for mock smsc</a></p>
+   <div style="width:100px">
+   <form method="GET" action="http://95.138.170.64:13013/cgi-bin/sendsms" target="results">
+     <input name="from" value="8500"  />
+     <input name="username" value="" />
+     <input name="password" value="" />
+     <input name="text" value="This is some text" />
+     <input name="to" value="345345345" />
+     <input name="smsc" value="SMPPSim" />
+     <input type="submit" />
+   </form>
+   </div>
+
+   <iframe id="results">
+     <p>Results go here</p>
+   </ifram>
+</body>
+</html>

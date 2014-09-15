@@ -1,0 +1,12 @@
+{
+    "name":"swaziland-dev",
+    "description":"Machines used for Swaziland dev. Importantly, kannel.conf should not be the same as that of swaziland-prod.",
+    "chef_type":"environment",
+    "override_attributes":{
+        "app_revision":"HEAD",
+        "app_repository_url":"https://github.com/unicefuganda/ureport",
+	"config_url":"git@github.com:ureport/swaziland-config.git",
+	"config_revision":"HEAD",
+        "language":"swaz"
+    }
+}

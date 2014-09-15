@@ -1,0 +1,138 @@
+#!/bin/bash
+#http://bdon.org/2012/03/23/osm2pgsql-homebrew-and-postgis-on-lion/
+
+function setVar() {
+    local varName=$1
+    local value=$2 
+    eval "${varName}=${value}"
+}
+
+function defaultArg() {
+    local argvalue=$1
+    local argname=$2
+    local default=$3
+       
+    if [ -z ${argvalue} ]; then
+        setVar ${argname} ${default}
+    else
+        setVar ${argname} ${argvalue}
+    fi
+}
+
+
+function sql.db() {
+    local dbname=$1
+    local stmt=$2
+    echo "SQL[${dbname}]: " ${stmt}
+    psql --username=${DB_USER} -w --dbname=${dbname} -c "${stmt}"
+}
+
+function sql.db.file() {
+    local dbname=$1
+    local filename=$2
+    local output="logs/$(basename ${filename}).log"
+    
+    if [ ! -d "logs" ]
+    then
+        mkdir "logs"
+    fi
+    
+    echo "SQL[${dbname}]: " ${filename} " (output in logs/)"
+    psql --username=${DB_USER} -w --dbname=${dbname} -f "${filename}" > ${output}
+}
+
+
+function sql.root() {
+    local stmt=$1
+    echo "SQL: " ${stmt}
+    psql --username=${DB_USER} -w -c "${stmt}"
+}
+
+
+
+
+function title() {
+    local message=$1
+    echo -e "\n--- ${message}\n"
+}
+
+function title.done() {
+    title "Done."
+}
+
+defaultArg "$1" "GEOSERVER_DB" "geoserver"
+defaultArg "$2" "DB_USER"  "$(whoami)"
+defaultArg "$3" "DB_PASSWORD" ""
+
+# this is not totally reccommended, but seems better than creating a pgpass file
+# http://www.postgresql.org/docs/current/static/libpq-envars.html
+PGPASSWORD=${DB_PASSWORD}
+
+echo "Configuring the geoserver database called [${GEOSERVER_DB}] ..."
+echo "USER: ${DB_USER}"
+
+
+if [[ $(uname) == "Darwin" ]]
+then
+  POSTGIS_SQL_PATH="/Applications/Postgres.app/Contents/MacOS/share/contrib/postgis-2.0"
+  export GDAL_DATA="/Applications/Postgres.app/Contents/MacOS/share/gdal"
+else
+  POSTGIS_SQL_PATH="/usr/share/postgresql/9.1/contrib/postgis-1.5"
+fi
+
+if [ -z ${DB_PASSWORD} ]; then
+    PASSWORD_PARAM = "password=${DB_PASSWORD}"
+else
+    PASSWORD_PARAM = " "
+fi
+
+
+POST_GIS_TEMPLATE_DB="template_postgis"
+
+title "Configuring POSTGIS (scripts are in ${POST_GIS_SQL_PATH})..."
+sql.root "UPDATE pg_database SET datistemplate='false' WHERE datname='${POST_GIS_TEMPLATE_DB}';"
+sql.root "DROP DATABASE IF EXISTS ${POST_GIS_TEMPLATE_DB};"
+sql.root "CREATE DATABASE ${POST_GIS_TEMPLATE_DB} ENCODING='UTF8';"
+sql.root "UPDATE pg_database SET datistemplate='true' WHERE datname='${POST_GIS_TEMPLATE_DB}';"
+sql.db.file ${POST_GIS_TEMPLATE_DB} "$POSTGIS_SQL_PATH/postgis.sql"
+sql.db.file ${POST_GIS_TEMPLATE_DB} "$POSTGIS_SQL_PATH/spatial_ref_sys.sql"
+sql.db ${POST_GIS_TEMPLATE_DB} "GRANT ALL ON geometry_columns TO PUBLIC;"
+sql.db ${POST_GIS_TEMPLATE_DB} "GRANT ALL ON spatial_ref_sys TO PUBLIC;"
+title.done
+
+title "Creating database [${GEOSERVER_DB}] ..."
+sql.root "DROP DATABASE IF EXISTS ${GEOSERVER_DB};"
+sql.root "CREATE DATABASE ${GEOSERVER_DB} TEMPLATE=${POST_GIS_TEMPLATE_DB};"
+title.done
+
+
+title "Setting up ureport tables ..."
+sql.db.file ${GEOSERVER_DB} "./create-ureport-geoserver-tables.sql"
+title.done
+
+# Import the districts - You need to have the shape file in this folder (where you are running the script)
+
+function import.shape.file() {
+    SHAPE_FILE=$1
+    LAYER_NAME=$2
+
+
+    if [ ! -e ${SHAPE_FILE} ]
+    then
+        echo -e "\n!!ERROR: The shape file ${SHAPE_FILE} must exist to continue.\n"
+        exit -1
+    fi
+
+    title "Importing shape file [${SHAPE_FILE}] to [${LAYER_NAME}] (output in logs/) db=${GEOSERVER_DB}, user=${DB_USER}..."
+    
+    ogr2ogr -f "PostgreSQL" PG:"dbname=${GEOSERVER_DB} user=${DB_USER} ${PASSWORD_PARAM}host=localhost port=5432" -t_srs EPSG:900913 ${SHAPE_FILE}  -nlt multipolygon -nln ${LAYER_NAME}  > logs/import-shape-file.log
+
+    title.done
+}
+
+import.shape.file "<%= @shape_file_path %>" "locations"
+
+title "Granting permissions ..."
+sql.db.file ${GEOSERVER_DB} "./grant-ureport-permissions.sql"
+title.done
+

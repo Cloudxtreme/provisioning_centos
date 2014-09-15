@@ -1,0 +1,20 @@
+{
+  "name": "ci_test_environment_centos",
+  "description": "",
+  "json_class": "Chef::Role",
+  "default_attributes": {
+  },
+  "override_attributes": {
+  },
+  "chef_type": "role",
+  "run_list": [
+    "recipe[ureport_app_centos]",
+    "role[init_db_centos]",
+    "recipe[country_customisations_centos::customise]",
+    "recipe[uwsgi_centos::bounce]",
+    "recipe[create_superuser_centos]",
+    "recipe[functional_test_utils_centos::steps_for_test_server]"
+  ],
+  "env_run_lists": {
+  }
+}

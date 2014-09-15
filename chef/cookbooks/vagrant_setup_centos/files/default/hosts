@@ -1,0 +1,6 @@
+
+# uReport IPs
+127.0.0.1  app.ureport.org
+127.0.0.1  kannel.ureport.org
+127.0.0.1  db.ureport.org
+127.0.0.1  backup.ureport.org

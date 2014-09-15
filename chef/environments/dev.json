@@ -1,0 +1,12 @@
+{
+	"name":"dev",
+	"description":"Dev boxes",
+ 	"chef_type":"environment",
+	"override_attributes":{
+		"app_revision":"HEAD",
+		"app_repository_url":"https://github.com/unicefuganda/ureport",
+		"config_url":"git@github.com:ureport/ecuador-config.git",
+		"config_revision":"HEAD",
+    "language":"en"
+	}
+}

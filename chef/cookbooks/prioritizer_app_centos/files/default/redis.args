@@ -1,0 +1,5 @@
+6379
+/etc/redis/redis.conf
+/var/log/redis.log
+/var/lib/redis
+/usr/local/bin/redis-server

@@ -1,0 +1,22 @@
+log_level                	:info
+log_location             	STDOUT
+node_name                	'<your_workstation_client_name>'
+client_key               	'~/.chef/ureport/<your_guest_box_client>.pem'
+validation_client_name   	'chef-validator'
+validation_key           	'~/.chef/ureport/validation.pem'
+chef_server_url          	'http://5.79.20.241:4000'
+syntax_check_cache_path  	'~/.chef/syntax_check_cache'
+encrypted_data_bag_secret	'~/.chef/ureport/ur_data_bag_key'
+
+
+
+knife[:rackspace_api_username] = "#{ENV['RACKSPACE_USERNAME_TW']}"
+knife[:rackspace_api_key] = "#{ENV['RACKSPACE_API_TW']}"
+
+knife[:rackspace_version] = 'v2'
+knife[:rackspace_api_auth_url] = "lon.auth.api.rackspacecloud.com"
+
+knife[:rackspace_endpoint] = "https://lon.servers.api.rackspacecloud.com/v2"
+
+knife[:aws_access_key_id] = "#{ENV['AWS_ACCESS_KEY_ID']}"
+knife[:aws_secret_access_key] = "#{ENV['AWS_SECRET_ACCESS_KEY']}"

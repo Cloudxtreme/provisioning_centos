@@ -1,0 +1,75 @@
+[inet_http_server]
+port = *:9001
+username = admin
+password = supervisor@ureport
+
+[unix_http_server]
+file=/tmp/supervisor.sock   ; (the path to the socket file)
+chmod=0700                       ; sockef file mode (default 0700)
+
+[supervisord]
+logfile=/var/log/supervisor/supervisord.log ; (main log file;default $CWD/supervisord.log)
+pidfile=/var/run/supervisord.pid ; (supervisord pidfile;default supervisord.pid)
+childlogdir=/var/log/supervisor            ; ('AUTO' child log dir, default $TEMP)
+
+; the below section must remain in the config file for RPC
+; (supervisorctl/web interface) to work, additional interfaces may be
+; added by defining them in separate rpcinterface: sections
+[rpcinterface:supervisor]
+supervisor.rpcinterface_factory = supervisor.rpcinterface:make_main_rpcinterface
+
+[supervisorctl]
+serverurl=unix:///tmp/supervisor.sock ; use a unix:// URL  for a unix socket
+
+[eventlistener:crashmail]
+command=/usr/local/bin/crashmail -a -m foo_bar@gmail.com
+events=PROCESS_STATE
+
+
+
+
+[program:celeryd]
+command = /home/ureport/virtualenv/ureport/bin/python manage.py celeryd -EB --settings=localsettings --concurrency=12 --loglevel DEBUG 
+process_name = ureport_celery
+directory = /home/ureport/code/ureport/ureport_project/
+priority = 50
+redirect_stderr = true
+stdout_logfile=/var/log/uwsgi/app/celeryd.log
+stopsignal = INT
+user = root
+autostart=true
+autorestart=true
+numprocs=1
+
+
+
+[program:bearerbox]
+command = bearerbox /etc/kannel/kannel.conf
+process_name = bearerbox
+directory = /etc/kannel/
+priority = 40
+redirect_stderr = true
+stdout_logfile = /var/log/kannel/bearerbox.log
+stopsignal = INT
+user = kannel
+
+[program:smsbox]
+command = smsbox  /etc/kannel/kannel.conf
+process_name = smsbox
+directory = /etc/kannel/
+priority = 45
+redirect_stderr = true
+stdout_logfile = /var/log/kannel/sms_stdout.log
+stopsignal = INT
+user = kannel
+
+[program:send_messages]
+command =  /home/ureport/virtualenv/ureport/bin/python manage.py  send_messages
+process_name = send_messages
+directory = /home/ureport/code/ureport/ureport_project/
+environment=DJANGO_SETTINGS_MODULE='localsettings'
+priority = 50
+redirect_stderr = true
+stdout_logfile=/var/log/uwsgi/app/send_messages.log
+stopsignal = INT
+user = root
